@@ -1,6 +1,30 @@
 import sys
 import os
 import argparse
+import re
+
+
+def getIncludes(text):
+    return re.search('#include "[a-zA-z]+"', text)
+
+
+def getCode(text):
+    m = re.finditer('#include ["<][a-zA-z]+[>"]', text)
+    m = [i for i in m][-1]
+    _, l = m.span()
+    return text[l:]
+
+
+def splitCodeTokens(code):
+    with open('./token.regex', 'r') as f:
+        r = re.compile(f.read())
+        return r.search(code)
+
+
+def stripComments(code):
+    with open('./comment.regex', 'r') as f:
+        return re.sub(f.read(), '', code)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
