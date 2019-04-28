@@ -1,12 +1,13 @@
 # ooflang (C/C++)
 
-Replaces the token in C/C++ projects with macros to decrease readibility
+Replaces the token in C/C++ projects with macros to decrease readibility.
+
 
 ## Usage
 
 ```bash
-dan@dan-Lenovo-ideapad-FLEX-5-1470:~/Documents/python/ooflang$ python ooflang.py -h
-usage: ooflang.py [-h] --file FILE --out OUT
+dan@dan-Lenovo-ideapad-FLEX-5-1470:~$ ooflang -h
+usage: ooflang [-h] --file FILE --out OUT
 
 Replaces the tokens in your C/C++ project with oofs that decrease readability
 
@@ -16,8 +17,13 @@ optional arguments:
   --out OUT    Where to store results
 ```
 
-Example:
+### Example:
 
 ```bash
-dan@dan-Lenovo-ideapad-FLEX-5-1470:~/Documents/python/ooflang$ python ooflang.py --file ./main.cpp --out ./oof.cpp
+dan@dan-Lenovo-ideapad-FLEX-5-1470:~/Documents/cpp/myproject$ ooflang --file ./main.cpp --out ./oof.cpp
 ```
+
+## Install
+
+1. Download the source code by `git clone` or from the [Releases](https://github.com/danhab99/ooflang/releases).
+2. `cd` into the folder and run `pip install -e .`
