@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import sys
 import os
 import argparse
@@ -52,10 +54,7 @@ def generateUniqueOofs(code):
     return [(C, O) for C, O in zip(code, ret)]
 
 
-# if __name__ == "__main__":
-#     print(generateUniqueOofs(['hi', 'whats', 'up']))
-
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description='Replaces the tokens in your C/C++ project with oofs that decrease readability')
     parser.add_argument('--file',
@@ -86,3 +85,7 @@ if __name__ == "__main__":
         out.write("\n".join(includes) + "\n\n" + macros + "\n\n" + newCode)
 
     print("Done")
+
+
+if __name__ == "__main__":
+    main()
