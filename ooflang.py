@@ -6,6 +6,7 @@ import argparse
 import re
 import random
 
+INSTALL = os.path.dirname(os.path.abspath(__file__))
 
 def getIncludes(text):
     return re.findall('#include ["<][a-zA-z]+[>"]', text)
@@ -19,13 +20,13 @@ def getCode(text):
 
 
 def splitCodeTokens(code):
-    with open('./token.regex', 'r') as f:
+    with open(INSTALL + '/token.regex', 'r') as f:
         r = re.compile(f.read())
         return [a for a, b, c, d in r.findall(code)]
 
 
 def stripComments(code):
-    with open('./comment.regex', 'r') as f:
+    with open(INSTALL + '/comment.regex', 'r') as f:
         return re.sub(f.read(), '', code)
 
 
@@ -84,7 +85,7 @@ def main():
     with open(args.out, 'w+') as out:
         out.write("\n".join(includes) + "\n\n" + macros + "\n\n" + newCode)
 
-    print("Converted %s tokens to oofs" % len(uniqTokens))
+    print("Converted %d tokens to oofs" % len(uniqTokens))
 
 
 if __name__ == "__main__":
