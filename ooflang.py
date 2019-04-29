@@ -84,7 +84,7 @@ def main():
     with open(args.out, 'w+') as out:
         out.write("\n".join(includes) + "\n\n" + macros + "\n\n" + newCode)
 
-    print("Done")
+    print("Converted %s tokens to oofs" % len(uniqTokens))
 
 
 if __name__ == "__main__":
