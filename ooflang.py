@@ -19,10 +19,13 @@ def getCode(text):
     return text[l:]
 
 
-def splitCodeTokens(code):
-    with open(INSTALL + '/token.regex', 'r') as f:
-        r = re.compile(f.read())
-        return [a for a, b, c, d in r.findall(code)]
+def splitCodeTokens(rawCode):
+    # with open(INSTALL + '/token.regex', 'r') as f:
+    #     r = re.compile(f.read())
+    #     return [a for a, b, c, d in r.findall(code)]
+    tokens = re.findall(r"(\w+|\W)", rawCode)
+    tokens = [x for x in tokens if x != " " and x != "\n"]
+    return tokens
 
 
 def stripComments(code):
