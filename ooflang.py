@@ -73,8 +73,9 @@ def main():
         else:
             if TOFOLDER:
                 openname = args.output + '/' + os.path.basename(openname)
-
-            with open(openname + '.oof', 'w+') as out:
+            
+            filename, file_extension = os.path.splitext(openname)
+            with open(filename + '.oof' + file_extension, 'w+') as out:
                 out.write(newFile)
 
         
