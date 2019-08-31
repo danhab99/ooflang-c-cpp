@@ -1,0 +1,28 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Python: Main Test",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceRoot}/ooflang.py",
+      "console": "integratedTerminal",
+      "args": [
+        "--file",
+        "/home/dan/Documents/cpp/homework/TBC6P3/a2.cpp",
+        "--out",
+        "a2.oof.cpp"
+      ]
+    }
+  ]
+}
