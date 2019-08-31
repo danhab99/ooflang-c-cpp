@@ -1,6 +1,10 @@
 #!/usr/bin/python
 
+import os
 from distutils.core import setup
+
+if not os.path.exists('ooflang'):
+    os.mkdir('ooflang')
 
 setup(name='ooflang',
       version='0.1',
