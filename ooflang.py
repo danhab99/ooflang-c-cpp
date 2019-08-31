@@ -3,35 +3,8 @@
 import sys
 import os
 import argparse
-import re
 import random
-
-INSTALL = os.path.dirname(os.path.abspath(__file__))
-
-def getIncludes(text):
-    return re.findall('#include ["<][a-zA-z]+[>"]', text)
-
-
-def getCode(text):
-    m = re.finditer('#include ["<][a-zA-z]+[>"]', text)
-    m = [i for i in m][-1]
-    _, l = m.regs[-1]
-    return text[l:]
-
-
-def splitCodeTokens(rawCode):
-    # with open(INSTALL + '/token.regex', 'r') as f:
-    #     r = re.compile(f.read())
-    #     return [a for a, b, c, d in r.findall(code)]
-    tokens = re.findall(r"(\w+|\W)", rawCode)
-    tokens = [x for x in tokens if x != " " and x != "\n"]
-    return tokens
-
-
-def stripComments(code):
-    with open(INSTALL + '/comment.regex', 'r') as f:
-        return re.sub(f.read(), '', code)
-
+from components import *
 
 def generateUniqueOofs(code):
     ret = ['oof']
@@ -55,37 +28,26 @@ def generateUniqueOofs(code):
         else:
             lastlen += 1
 
-    return [(C, O) for C, O in zip(code, ret)]
+    return {C : O for C, O in zip(code, ret)}
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='Replaces the tokens in your C/C++ project with oofs that decrease readability')
-    parser.add_argument('--file',
-                        help='File to process', required=True)
-    # parser.add_argument('-p --process-dependencies',
-    #                     help='Process dependencies listed in each C/C++ file', action='store_true')
-    parser.add_argument(
-        '--out', help='Where to store results', required=True)
-    args = parser.parse_args()
-
     c = ''
 
-    with open(args.file, 'r') as main:
+    with open('test.cpp', 'r') as main:
         c = main.read()
 
     c = stripComments(c)
     includes = getIncludes(c)
     code = getCode(c)
-    tokens = splitCodeTokens(code)
+    tokens = list(splitCodeTokens(code))
     uniqTokens = list(set(tokens))
-    oofsL = generateUniqueOofs(uniqTokens)
-    oofsD = {K: V for K, V in oofsL}
+    oofs = generateUniqueOofs(uniqTokens)
 
-    macros = '\n'.join(["#define %s %s" % (O, C) for C, O in oofsL])
-    newCode = ' '.join([oofsD[word] for word in tokens])
+    macros = '\n'.join(["#define %s %s" % (O, C) for C, O in oofs.items()])
+    newCode = ' '.join([oofs[word] for word in tokens])
 
-    with open(args.out, 'w+') as out:
+    with open('test.oof.cpp', 'w+') as out:
         out.write("\n".join(includes) + "\n\n" + macros + "\n\n" + newCode)
 
     print("Converted %d tokens to oofs" % len(uniqTokens))
