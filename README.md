@@ -2,6 +2,11 @@
 
 Replaces the token in C/C++ projects with macros to decrease readibility.
 
+- [ooflang (C/C++)](#ooflang-cc)
+  - [Usage](#usage)
+    - [Example:](#example)
+    - [Demo](#demo)
+  - [Install](#install)
 
 ## Usage
 
@@ -25,6 +30,63 @@ optional arguments:
 
 ```bash
 dan@dan-Lenovo-ideapad-FLEX-5-1470:~/Documents/cpp/myproject$ ooflang test.cpp
+```
+
+### Demo
+
+Inital code
+
+```cpp
+#include <iostream>
+
+using namespace std;
+
+int main(int argc, char ** argv) {
+  // Adds two numbers
+  int a,b;
+  cout << "Input a: ";
+  cin >> a;
+  cout << "Input b: ";
+  cin >> b;
+
+  cout << (a + b);
+  return 0;
+}
+```
+
+Oofed code
+
+```cpp
+#include <iostream>
+
+#define oof cout
+#define off >>
+#define ooO int
+#define oFo <<
+#define ooF char
+#define oOf )
+#define oOoF (
+#define oOfF +
+#define oFof namespace
+#define ooof ,
+#define oofff 0
+#define ooffO "Input b: "
+#define oOfFF ;
+#define ofOFF main
+#define oooOF std
+#define oooOf return
+#define ooofO argv
+#define ofoFf **
+#define oofoF using
+#define oOffO argc
+#define ooOOF a
+#define ooOfF b
+#define ooooF cin
+#define ooOFF "Input a: "
+#define ooFOF {
+#define oOOoFF }
+
+oofoF oFof oooOF oOfFF ooO ofOFF oOoF ooO oOffO ooof ooF ofoFf ooofO oOf ooFOF ooO ooOOF ooof ooOfF oOfFF oof oFo ooOFF oOfFF ooooF off ooOOF oOfFF oof oFo ooffO oOfFF ooooF off ooOfF oOfFF oof oFo oOoF ooOOF oOfF ooOfF oOf oOfFF oooOf oofff oOfFF oOOoFF
 ```
 
 ## Install
