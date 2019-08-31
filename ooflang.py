@@ -32,25 +32,40 @@ def generateUniqueOofs(code):
 
 
 def main():
-    c = ''
+    parser = argparse.ArgumentParser(description='Obfuscates C/C++ code')
+    parser.add_argument('-o', '--output', help='Directs the output to a name of your choice')
+    parser.add_argument('file', metavar='Input File', type=str, nargs='+')
 
-    with open('test.cpp', 'r') as main:
-        c = main.read()
+    args = parser.parse_args()
+    TOFOLDER = args.output and len(args.file) > 1
+    
+    if TOFOLDER:
+        os.mkdir(args.output)
+    
+    for filename in args.file:
+        c = ''
+        with open(filename, 'r') as main:
+            c = main.read()
 
-    c = stripComments(c)
-    includes = getIncludes(c)
-    code = getCode(c)
-    tokens = list(splitCodeTokens(code))
-    uniqTokens = list(set(tokens))
-    oofs = generateUniqueOofs(uniqTokens)
+        c = stripComments(c)
+        includes = getIncludes(c)
+        code = getCode(c)
+        tokens = list(splitCodeTokens(code))
+        uniqTokens = list(set(tokens))
+        oofs = generateUniqueOofs(uniqTokens)
 
-    macros = '\n'.join(["#define %s %s" % (O, C) for C, O in oofs.items()])
-    newCode = ' '.join([oofs[word] for word in tokens])
+        macros = '\n'.join(["#define %s %s" % (O, C) for C, O in oofs.items()])
+        newCode = ' '.join([oofs[word] for word in tokens])
 
-    with open('test.oof.cpp', 'w+') as out:
-        out.write("\n".join(includes) + "\n\n" + macros + "\n\n" + newCode)
+        openname = filename
 
-    print("Converted %d tokens to oofs" % len(uniqTokens))
+        if TOFOLDER:
+            openname = args.output + '/' + os.path.basename(openname)
+
+        with open(openname + '.oof', 'w+') as out:
+            out.write("\n".join(includes) + "\n\n" + macros + "\n\n" + newCode)
+
+        print("Converted %d tokens in %s to oofs" % (len(uniqTokens), filename))
 
 
 if __name__ == "__main__":
