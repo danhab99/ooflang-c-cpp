@@ -34,6 +34,8 @@ def generateUniqueOofs(code):
 def main():
     parser = argparse.ArgumentParser(description='Obfuscates C/C++ code')
     parser.add_argument('-o', '--output', help='Directs the output to a name of your choice')
+    parser.add_argument('-q', '--quiet', help='Do not output anything', action='store_true')
+    parser.add_argument('-d', '--dry', help='Dumps results to standard out', action='store_true')
     parser.add_argument('file', metavar='Input File', type=str, nargs='+')
 
     args = parser.parse_args()
@@ -41,6 +43,10 @@ def main():
     
     if TOFOLDER:
         os.mkdir(args.output)
+
+    def quietablePrint(msg):
+        if not args.quiet:
+            print(msg)
     
     for filename in args.file:
         c = ''
@@ -56,16 +62,23 @@ def main():
 
         macros = '\n'.join(["#define %s %s" % (O, C) for C, O in oofs.items()])
         newCode = ' '.join([oofs[word] for word in tokens])
-
+        newFile = "\n".join(includes) + "\n\n" + macros + "\n\n" + newCode
         openname = filename
 
-        if TOFOLDER:
-            openname = args.output + '/' + os.path.basename(openname)
+        if args.dry:
+            if len(args.file) > 1:
+                quietablePrint('\n--- %s ---' % filename)
+            print(newFile)
+            print('\n')
+        else:
+            if TOFOLDER:
+                openname = args.output + '/' + os.path.basename(openname)
 
-        with open(openname + '.oof', 'w+') as out:
-            out.write("\n".join(includes) + "\n\n" + macros + "\n\n" + newCode)
+            with open(openname + '.oof', 'w+') as out:
+                out.write(newFile)
 
-        print("Converted %d tokens in %s to oofs" % (len(uniqTokens), filename))
+        
+        quietablePrint("Converted %d tokens in %s to oofs" % (len(uniqTokens), filename))
 
 
 if __name__ == "__main__":
