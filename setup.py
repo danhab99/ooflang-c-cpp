@@ -7,7 +7,7 @@ if not os.path.exists('ooflang'):
     os.mkdir('ooflang')
 
 setup(name='ooflang',
-      version='0.1',
+      version='0.2',
       description='Replaces the tokens in your C/C++ project with oofs that decrease readability',
       author='Dan Habot',
       author_email='dan.habot@gmail.com',
