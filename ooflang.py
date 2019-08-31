@@ -7,26 +7,30 @@ import random
 from components import *
 
 def generateUniqueOofs(code):
+    def gen(c):
+        l = list(range(len(code)))
+        random.shuffle(l)
+        nums = [bin(i)[2:] for i in l]
+        for bits in nums:
+            r = ''
+            for bit in bits:
+                r += c.upper() if bit == '1' else c
+            if r != 'oof':
+                yield r
     ret = ['oof']
+    ret += list([i + j for i, j in zip(gen('o'), gen('f'))])
+    
+    for i, item in enumerate(ret):
+        nu = list(item)
+        l = len(item)
+        h = float(l / 2)
+        for c in range(int(h) + 2):
+            r = (c / h) + random.random() > 1 + (0.1 * random.random())
+            if r:
+                nu[c], nu[-(c + 1)] = nu[-(c + 1)], nu[c]
+        ret[i] = ''.join(nu)
 
-    def pickLetter(p):
-        def pick(f, l):
-            return f if (p + random.random()) / 2 > 0.5 else l
-        l = pick('f', 'o')
-        c = pick(True, False)
-        l = l.upper() if c else l
-        return l
 
-    lastlen = len(ret[-1])
-
-    while len(ret) is not len(code):
-        g = ''.join([pickLetter(float(i) / lastlen)
-                     for i in range(lastlen)])
-
-        if g not in ret:
-            ret.append(g)
-        else:
-            lastlen += 1
 
     return {C : O for C, O in zip(code, ret)}
 
