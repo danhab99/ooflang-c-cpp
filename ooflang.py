@@ -38,6 +38,7 @@ def main():
     parser.add_argument('-o', '--output', help='Directs the output to a name of your choice')
     parser.add_argument('-q', '--quiet', help='Do not output anything', action='store_true')
     parser.add_argument('-d', '--dry', help='Dumps results to standard out', action='store_true')
+    parser.add_argument('-p', '--nopretest', help='Do not run pretest to make sure obfuscated code will compile', action='store_true')
     parser.add_argument('file', metavar='Input File', type=str, nargs='+')
 
     args = parser.parse_args()
@@ -49,6 +50,8 @@ def main():
     def quietablePrint(msg):
         if not args.quiet:
             print(msg)
+
+
     
     for filename in args.file:
         c = ''
@@ -66,6 +69,32 @@ def main():
         newCode = ' '.join([oofs[word] for word in tokens])
         newFile = "\n".join(includes) + "\n\n" + macros + "\n\n" + newCode
         openname = filename
+
+        if not args.nopretest:
+            if not testCompile(newFile):
+                print('''
+This obfuscation will not compile. Please go back to %s
+and ensure that the code can be run if it was written on one line.
+
+Please check that every code block is surrounded by curly braces (ie:)
+
+// WRONG, this will not compile 
+int a = 1;
+if (a == 1)
+    cout << "Success";
+else
+    cout << "Failure;
+
+// RIGHT
+int a = 1;
+if (a == 1) {
+    cout << "Success";
+}
+else {
+    cout << "Failure;
+}
+                ''' % filename)
+                continue
 
         if args.dry:
             if len(args.file) > 1:

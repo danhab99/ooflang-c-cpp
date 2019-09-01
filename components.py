@@ -1,4 +1,7 @@
 import re
+import subprocess
+import tempfile
+import os
 
 _INCLUDE_REGEX = re.compile(r'#include ["<][a-zA-z]+[>"]')
 _TOKEN_REGEX = re.compile(r"(\d*\.\d*|\"|\'|[+-/*%<>!=&|^;?:$][<>+-=&|]?[=*]?|\w+|[(){}[\]])")
@@ -40,3 +43,17 @@ def splitCodeTokens(code):
 
 def stripComments(code):
   return re.sub(_COMMENT_REGEX, '', code)
+
+def testCompile(code):
+  OUT = tempfile.gettempdir() + '/out.oof.cpp'
+  IN = tempfile.gettempdir() + '/in.oof.cpp'
+  FNULL = open(os.devnull, 'w')
+
+  with open(IN, 'w+') as f:
+    f.write(code)
+
+  if subprocess.call("gcc -o %s %s" % (OUT, IN), shell=True, stdout=FNULL, stderr=FNULL) == 0:
+    os.remove(OUT)
+    return True
+  else:
+    return False
