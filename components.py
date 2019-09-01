@@ -1,7 +1,7 @@
 import re
 
 _INCLUDE_REGEX = re.compile(r'#include ["<][a-zA-z]+[>"]')
-_TOKEN_REGEX = re.compile(r"(\s|\n|;|'|\"|\+|=|-|\[|\]|\{|\}|\(|\)|!|@|#|\$|%|\^|&|<<|>>|\*\*|\*|<|>|,|\.|\/|\?|;|:|\||)")
+_TOKEN_REGEX = re.compile(r"(\d*\.\d*|\"|\'|[+-/*%<>!=&|^;?:$][<>+-=&|]?[=*]?|\w+|[(){}[\]])")
 _COMMENT_REGEX = re.compile(r'(\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/)|(\/\/.*)')
 
 def getIncludes(text):

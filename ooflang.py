@@ -30,8 +30,6 @@ def generateUniqueOofs(code):
                 nu[c], nu[-(c + 1)] = nu[-(c + 1)], nu[c]
         ret[i] = ''.join(nu)
 
-
-
     return {C : O for C, O in zip(code, ret)}
 
 
