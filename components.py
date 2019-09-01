@@ -52,7 +52,7 @@ def testCompile(code):
   with open(IN, 'w+') as f:
     f.write(code)
 
-  if subprocess.call("gcc -o %s %s" % (OUT, IN), shell=True, stdout=FNULL, stderr=FNULL) == 0:
+  if subprocess.call("g++ -o %s %s" % (OUT, IN), shell=True, stdout=FNULL, stderr=FNULL) == 0:
     os.remove(OUT)
     return True
   else:
