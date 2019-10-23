@@ -1,5 +1,9 @@
 # ooflang (C/C++)
 
+![GitHub stars](https://img.shields.io/github/stars/danhab99/ooflang-c-cpp)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/danhab99/ooflang-c-cpp)
+![PyPI](https://img.shields.io/pypi/v/ooflang)
+
 Replaces the token in C/C++ projects with macros to decrease readibility.
 
 - [ooflang (C/C++)](#ooflang-cc)
